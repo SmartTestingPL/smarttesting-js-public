@@ -1,0 +1,33 @@
+= 01.01 Testy jednostkowe
+
+Tematy omawiane w tej części:
+
+* Czemu testy są niezbędne
+* Czemu testy są opłacalne
+* Jakie zasady powinny spełniać dobre testy
+* Jak unikać fałszywych pozytywów:
+   - przykład: `LoanOrderService.spec.js / (chained assert object) should create student loan order`
+* Rodzaje testów
+* Struktura testów
+  - zobacz np. `IdentificationNumberVerification.spec.js`
+* Konwencje nazewnicze
+  - zobacz: `IdentificationNumberVerification.spec.js`
+* Używanie konstruktorów
+  - pozwala to między innymi na używanie Test Doubles, zobacz: `TestVerificationService` (wewn. cuustomer verifier)
+* Radzenie sobie z metodami statycznymi:
+  - zobacz setup pól klasy testowej w `CustomerVerifier.spec.js`
+* Asercje i frameworki do asercji
+  - zobacz `AgeVerification.spec.js`
+* Wzorzec AssertObject
+ - zobacz `LoanOrderService.spec.js`
+
+
+**DISCLAIMER**
+
+* Kod jest czysto demonstracyjny i nie stanowi wzorcowego kodu projektowego - zamiast na jak
+najlepiej napisanym kodzie produkcyjnym koncentrujemy się na przykładach, które pozwalają pokazać
+wiele sposobów pracy z testami; często celowo dodajemy "produkcyjny" kod, który nie jest poprawnie zaprojektowany po to, żeby pokazać jak sobie z nim radzić i mimo wszystko być w stanie go przetestować
+oraz przykłady złych testów, których radzimy unikać.
+* Nie polecamy pisania komentarzy po polsku w projektach - tutaj robimy to ponieważ jest to wyłącznie kod szkoleniowy.
+
+
