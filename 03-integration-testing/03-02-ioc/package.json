@@ -1,0 +1,13 @@
+{
+  "name": "smarttesting-js",
+  "scripts": {
+    "start": "ts-node demo.ts"
+  },
+  "dependencies": {
+    "@types/node": "20.6.5",
+    "@types/reflect-metadata": "0.1.0",
+    "reflect-metadata": "0.1.13",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}

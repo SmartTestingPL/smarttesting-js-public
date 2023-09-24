@@ -1,0 +1,68 @@
+= Kontroler / HTTP
+
+== Kod
+
+`FraudController.java`
+
+== Notatki
+
+Zanim napiszemy jakikolwiek test, powinniśmy sobie zadać pytanie, co dokładnie chcemy przetestować. Jaki jest cel naszego testu? W tym przypadku, mamy kontroler czyli obiekt przyjmujący żądania HTTP i zwracający odpowiedź w tym protokole.
+
+=== JavaScript-specific
+
+W Javie najpopularniejszym obecnie rozwiązaniem jest Java Spring, który dostarcza mnóstwo przydatnych narzędzi. Ekosystem JavaScriptowy nie ma odpowiednika w postaci Springa, jest dużo narzędzi, ale żadne nie jest ani tak popularne jak Spring ani tak bardzo zaawansowane.
+
+My będziemy się posługiwali biblioteką `express` - jest najbardziej znana (https://2019.stateofjs.com/back-end/, najpopularniejsza do RESTów) i ma największe wsparcie narzędzi w postaci tzw. middleware'ów. Popularne alternatywy do `express` to: `meteor` i `nestjs`.
+
+Zwróćmy uwagę na istotny detal, mianowicie Java Spring bazuje na klasycznym wzorcu MVC (Model-View-Controller), bazuje także na Dependency Injection oraz wielu adnotacjach specyficznych dla Javy/Springa. Z kolei `express` bazuje na wzorcu projektowym Middleware (https://expressjs.com/en/guide/writing-middleware.html), który umożliwia nie tylko parametryzację, ale i kompozycję logiki RESTowego API. W konsekwencji, praktycznie nie stosuje się DI z express (owszem, istnieją do tego pluginy, ale mówiąc bardzo delikatnie, są niszowe :) ).
+
+Dodatkowo, Spring jest bardzo jednolity, tworzony i utrzymywany przez jedną firmę. Jest z reguły jeden dobry sposób na zrobienie czegoś, funkcjonalności często wpinane są poprzez skrótowe adnotacje. `express` zaś jest z założenia małą biblioteką, którą można swobodnie uzupełniać o middleware'y, komponować je i w ten sposób rozbudowywać logikę aplikacji. Istnieje bardzo dużo popularnych middleware'ów, ale większość nie jest oficjalnie wspieranych przez expressa i trudno wśród nich wskazać narzędzia "domyślne".
+
+Podmienianie zależności pod kątem testów realizuje się inaczej niż w Springu/DI.
+
+=== Testowanie kontrolera jako obiektu [01]
+
+==== Kod
+
+Kodu jest mało, ale celowo jest rozbity na wiele mniejszych plików aby zasymulować drzewo zależności, które będziemy importować/mockować
+
+- `src/app/verifier` - logika biznesowa (weryfikacja oszustw)
+- `src/app/fraud` - middleware expressowy
+- `src/app/app` - aplikacja expressowa
+- `src/app/server` - ten plik w ogóle nie uczestniczy w testach; jest w repo, gdyby ktoś zechciał aplikację uruchomić z konsoli
+
+==== Testy
+
+`01_Controller.spec.js`
+
+==== Notatki
+
+Jeśli zainicjujemy kontroler jako obiekt oraz jego zależności to z punktu widzenia kontrolera mamy nic innego jak test jednostkowy. W taki sposób testujemy bez warstwy HTTP logikę naszych komponentów. Zakładając, że przetestowaliśmy jednostkowo customerVerifier, taki test nam nic nie daje. Zatem skoro naszym celem jest zweryfikowanie czy nasz kontroler komunikuje się po warstwie HTTP to kompletnie nam się to nie udało.
+
+Czy jest to zły test? Nie, ale trzeba włączyć w to testowanie warstwy HTTP.
+
+==== Testy
+
+`01_Middleware.spec.js`
+
+W tym pliku ręcznie testujemy middleware expressowy, wywołując go jako funkcję. Tak się raczej nie robi - kod jest ilustracją analogicznego, odradzanego, testowania kontrolera Springowego jako klasy w javie - preferowane jest podejście omawiane w następnych plikach.
+
+Jesteśmy w stanie zamockować obiektu request/response na poziomie jasmine i sprawdzić czy odpowiednio zostały obsłużone, nie mniej jest to nisko-poziomowy kod, dość mocno podatny na zmiany, testy są kruche.
+
+==== Testy
+
+`02_FraudWithPortBinding.spec.js`
+
+Docelowe rozwiązanie - stosujemy bibliotekę `superagent` która umożliwia nam wysokopoziomowo określenie żądania jakie wysyłamy oraz asercji na odpowiedzi. W tej wersji mamy do czynienia z "prawdziwą" implementacją logiki biznesowej.
+
+==== Testy
+
+`03_FraudWithFakePortBinding.spec.js`
+
+Analogicznie jak punkt wyżej, przy czym chcemy uruchomić testy na zamockowanej logice (w tym przypadku zamockowanie logiki to zaledwie zmiana IFa na weryfikację wieku...). Mockowanie o tyle istotne, że w express, o czym wspomnieliśmy, nie stosuje się Dependency Injection. Mockowanie odbywa się technicznie poprzez nadpisywanie kesza node'owej funkcji `require`. Kiedy JS interpreter skanuje importy plik po pliku, jeśli jakiś plik było zamockowany, weźmie ten mock i "wplecie go" w resztę aplikacji. Takie podejście jest, szeroko ujmując JS, znacznie bardziej popularne niż klasyczne DI, w którym wstrzykuje się zależności poprzez konstruktor/parametry.
+
+W tym wypaku korzystany z samodzielnej biblioteki `mock-require`. Bardzo popularnym narzędziem do mockowania zależności jest `jest` i jego `jest.mock`, przy czym jest to już cały framework do testowania (zastępstwo dla `jasmine`).
+
+==== Inne
+
+Pozostałe pliki (Mock MVC, Rest Assured) nie zostały sportowane na JS, ponieważ nie mają swoich standardowych odpowiedników w node.js.

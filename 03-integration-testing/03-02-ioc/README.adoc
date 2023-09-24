@@ -1,0 +1,28 @@
+- plik: `demo.ts`
+- komenda: `npm start`
+
+== O Depenndency Injection i JS słów kilka...
+
+Dependency Injection jako wzorzec architektoniczny, naturalnie, ma swoje implementacje w JS/TS. Jedną z w miarę znanych implementacji, framework-agnostic, jest https://github.com/typestack/typedi.
+
+Natomiast - co może być mocno szokujące dla backendowców - mnóstwo narzędzi JSowych, zarówno frontendowych jak i backendowych, dobrze sobie radzi bez DI. Dependency Injection nie jest standardowym rozwiązaniem - jak to w JS, jeśli istnieją prostsze alternatywy, to są często preferowane.
+
+== Spring vs JS
+
+Należy też zwrócić uwagę, że Spring w środowisku java jest absolutnym hegemonem, który ma rozwiązanine na niemal wszystko - w JS nie ma takiego odpowiednika, ani pod kątem możliwości, ani popularności. W końcu w JS co tydzień wychodzi nowy framework ;) a na serio mówiąc - platforma jest rozproszona, narzędzia są bardzo granularne i developerzy nierzadko składają własny setup.
+
+W związku z tym, że nie istnieje odpowiednik Springa w JSie, niektóre pliki zawarte w oryginalnym javowym repozytorium są nieprzenaszalne na JS.
+
+Moduł zawiera przykładowy kod ilustrujący _klasyczne_ podejście do DI przeniesione na JS, w postaci mikro-implementacji silnika DI. Kod implementuje przykładowe dekoratory (aby były podobne składniowo do javy) i w tym celu stosujemy TypeScript zamiast JavaScriptu (TS obsługuje składniowo dekoratory). Sama w sobie implementacja (choć załączona) nie jest istotna.
+
+== JS-specific - Skoro nie DI to co?
+
+Rozchodzi się o różnice w platformie. W javie "wszystko musi być klasą", w JSie nie. To, że wszystko musi być klasą nie zawsze jest korzystne - to w końcu dość spore ograniczenie. W pliku .java możemy stworzyć klasę - w JS natomiast możemy stworzyć wszystko - funkcje (bez klas), obiekty (literały - bez klas), zmienne-prymitywy itp itd. I możemy je exportować do innych modułów). I tu ważne - Node.js, a wraz z nim "bundlery" frontendowe (webpack, browserify itp) tak implementują `import`/`export`, że jeśli exportowany jest np. obiekt i impotuje go 10 różnych plików, to wszystkie mają jedną i tą samą współdzieloną instancję (czyli NIE mają róznowległych kopii; możemy to sobie wyobrazić jako współdzielony przez cały proces słownik, który wszystkie importowane byty trzyma zapisane w tym słowniku, stają się one implicite singletonami). I niepotrzebne jest wrapowanie tworzenia w jakąkolwiek fabrykę - można w końcu stworzyć i od razu wyepoxrtować obiekt (choćby `export const something = {}`). To sprawia, że natywny import/export jest dużo lżejszym zamiennikiem dla DI. I nie wymaga bibliteki runtime'owej.
+
+De facto, przy tym podejściu zależności nie są "wstrzykiwane" (push) tylko ciągnięte (pull), więc to nie jest DI, tylko w ogóle alernatywne podejście z innej bajki. I tak, tak działa mnóstwo narzędzi w ekosystemie JS.
+
+== mockowanie zależności
+
+Ale pojawia się problem - skoro nie mogę przekazać zależności explicite (tylko są implicite pochowane po zależnościach w kodzie, tzn. importując klasę nie widać, że ona importuje swoje zależności) - to jak je mockować? Otóż, jest na to również natywne wsparcie. Dla zaintetresowanych - funkcja `require` (to w Node.js _prawie_ to samo, co `import` w JS/ES6) zawiera swój cache, `require.cache` który pozwala - np. na potrzeby testu nadpisać, jaka wartość zostanie zaimportowana przez inne moduły. Bardzo wygodne API, bazujące na powyższej technice, udostępnia framework testowy `jest` (node-owy, nie przeglądarkowy): `jest.mock(ścieżka, definicja?)`. Więcej szczegółów: https://jestjs.io/docs/en/manual-mocks. Ale jest też wiele innych narzędzi implementujących tę technikę, mniej znanych, np. `mockery` (https://www.npmjs.com/package/mockery).
+
+Można to lubić albo nie (jakże często przywiązanie do znanych rozwiązań determinuje, co ktoś uznaje za "mądre" lub "głupie"), w każdym razie małe, średnie, duże, lub wręcz gigantyczne aplikacje JSowe oparte choćby o reakta (frontend) czy express (backend) spokojnie radzą sobie, mockując zależności poprzez mockowanie importów - i nie wpływa to negatywnie na ich testowalność. Jest to po prostu inne podejście, które - zwłaszcza jako javowiec/.netowiec, czyli osoba o innym backgroundzie - warto poznać :)

@@ -1,0 +1,5 @@
+W tym tygodniu dla node.js pokryte są moduły:
+
+- 03-02-ioc
+- 03-03-controller
+- 03-04-client
