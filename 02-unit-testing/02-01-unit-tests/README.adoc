@@ -1,0 +1,28 @@
+= 02.01 Testy jednostkowe c.d.
+
+Tematy omawiane w tej części:
+
+* Struktura klasy testowej:
+  - setup i tear-down; zobacz: `LoanOrderService.spec.js`
+  - zastosowanie builderów; zobacz: `CustomerBuilder.js` i `CustomerVerifier.spec.js`
+  - klasy bazowe (_JS disclaimer: w JS nie ma wymogu, że wszystko musi być klasą, w szczególności testy nie są formowane w klasy, współdzielona logika to najczęściej zestaw utilsów (mogą to też być klasy, ale nie reprezentujące "testu" jako takiego tylko np. mockowany serwis_); zobacz: `base.js`
+* Co i kiedy testować
+  - testowanie wyniku operacji; zobacz: `LoanOrderService.spec.js`:`should create student loan order`
+  - testowanie stanu; zobacz: `LoanOrder.spec.js`:`should add manager promo`
+  - testowanie interakcji; zobacz: `CustomerVerifier.spec.js`:`should emit verification event`
+  - które metody testować
+* Mockowanie i stubowanie
+  - zobacz: `LoanOrderService.spec.js`
+* Szkoły testów jednostkowych
+* Mocki i stuby - dobre praktyki
+* Testy Data-Driven
+  - zobacz: `IdentificationNumberVerification.spec.js`
+
+
+**DISCLAIMER**
+
+* Kod jest czysto demonstracyjny i nie stanowi wzorcowego kodu projektowego - zamiast na jak
+najlepiej napisanym kodzie produkcyjnym koncentrujemy się na przykładach, które pozwalają pokazać
+wiele sposobów pracy z testami; często celowo dodajemy "produkcyjny" kod, który nie jest poprawnie zaprojektowany po to, żeby pokazać jak sobie z nim radzić i mimo wszystko być w stanie go przetestować
+oraz przykłady złych testów, których radzimy unikać.
+* Nie polecamy pisania komentarzy po polsku w projektach - tutaj robimy to ponieważ jest to wyłącznie kod szkoleniowy.

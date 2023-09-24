@@ -1,0 +1,24 @@
+{
+  "name": "smarttesting-js",
+  "private": true,
+  "scripts": {
+    "test": "node test",
+    "test:coverage": "nyc node test",
+    "test:watch": "chokidar \"**/*.{js,json}\" -c \"npm test\" --silent --initial --ignore node_modules"
+  },
+  "dependencies": {
+    "@babel/core": "7.22.20",
+    "@babel/preset-env": "7.22.20",
+    "@types/jasmine": "^4.3.6",
+    "@types/node": "^20.6.4",
+    "chokidar-cli": "^3.0.0",
+    "csv-parse": "^4.16.3",
+    "csvtojson": "^2.0.10",
+    "dateformat": "^4.6.3",
+    "jasmine": "5.1.0",
+    "jasmine-node": "^3.0.0",
+    "jasmine-reporters": "2.5.2",
+    "typescript": "^5.2.2",
+    "uuid": "^9.0.1"
+  }
+}
