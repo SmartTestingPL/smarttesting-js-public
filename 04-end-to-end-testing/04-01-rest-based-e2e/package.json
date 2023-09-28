@@ -1,0 +1,16 @@
+{
+  "name": "smarttesting-js",
+  "private": true,
+  "scripts": {
+    "test": "node test"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^8.1.0",
+    "@types/jasmine": "^4.3.6",
+    "@types/node": "^20.7.1",
+    "jasmine": "^5.1.0",
+    "jasmine-node": "^3.0.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  }
+}
