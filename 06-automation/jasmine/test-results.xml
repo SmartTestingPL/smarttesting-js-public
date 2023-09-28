@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites disabled="0" errors="0" failures="1" tests="19" time="0.06">
+ <testsuite name="JSON Schemas w/ajv" timestamp="2023-09-28T15:24:05" hostname="localhost" time="0.056" errors="0" tests="3" skipped="0" disabled="0" failures="1">
+  <testcase classname="JSON Schemas w/ajv" name="should validate emails" time="0.054">
+   <failure type="exception" message="Failed: [ Object({ instancePath: &apos;&apos;, schemaPath: &apos;#/pattern&apos;, keyword: &apos;pattern&apos;, params: Object({ pattern: &apos;[a-z0-9!#$%&amp;&apos;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;&apos;*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?&apos; }), message: &apos;must match pattern &quot;[a-z0-9!#$%&amp;&apos;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;&apos;*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?&quot;&apos; }) ]"><![CDATA[at <Jasmine>
+    at UserContext.<anonymous> (/Users/ducin/Development/devstyle/smarttesting/st-3/smarttesting-js/06-automation/jasmine/spec/json-schema/json-schema.spec.js:36:23)
+    at <Jasmine>]]>
+   </failure>
+  </testcase>
+  <testcase classname="JSON Schemas w/ajv" name="should validate employee objects" time="0.001" />
+  <testcase classname="JSON Schemas w/ajv" name="should validate collections of employee objects" time="0" />
+ </testsuite>
+ <testsuite name="adding" timestamp="2023-09-28T15:24:05" hostname="localhost" time="0" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="adding" name="should return proper results" time="0" />
+  <testcase classname="adding" name="should fail on strings" time="0" />
+ </testsuite>
+ <testsuite name="JASMINE custom matchers" timestamp="2023-09-28T15:24:05" hostname="localhost" time="0" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="JASMINE custom matchers" name="is an object" time="0" />
+  <testcase classname="JASMINE custom matchers" name="is a payment" time="0" />
+ </testsuite>
+ <testsuite name="Joi Schemas" timestamp="2023-09-28T15:24:05" hostname="localhost" time="0" errors="0" tests="3" skipped="0" disabled="0" failures="0">
+  <testcase classname="Joi Schemas" name="should validate emails" time="0" />
+  <testcase classname="Joi Schemas" name="should validate employee objects" time="0" />
+  <testcase classname="Joi Schemas" name="should validate collections of employee objects" time="0" />
+ </testsuite>
+ <testsuite name="node.js assert" timestamp="2023-09-28T15:24:05" hostname="localhost" time="0.002" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="node.js assert" name="should have basic assertions working" time="0" />
+  <testcase classname="node.js assert" name="(xit) skipped - never gets run" time="0.001" />
+ </testsuite>
+ <testsuite name="JASMINE SPIES" timestamp="2023-09-28T15:24:05" hostname="localhost" time="0.002" errors="0" tests="5" skipped="0" disabled="0" failures="0">
+  <testcase classname="JASMINE SPIES" name="anonymous spy remembers its calls" time="0.001" />
+  <testcase classname="JASMINE SPIES" name="should NOT call the wrapped function" time="0" />
+  <testcase classname="JASMINE SPIES" name="should call the wrapped function with .andCallThrough()" time="0" />
+  <testcase classname="JASMINE SPIES" name="should NOT call the wrapped object method" time="0" />
+  <testcase classname="JASMINE SPIES" name="should call the wrapped object method with .andCallThrough()" time="0" />
+ </testsuite>
+ <testsuite name="JASMINE SPIES.returning values" timestamp="2023-09-28T15:24:05" hostname="localhost" time="0" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="JASMINE SPIES.returning values" name="should return arbitrary values" time="0" />
+  <testcase classname="JASMINE SPIES.returning values" name="should return arbitrary ASYNC values" time="0" />
+ </testsuite>
+</testsuites>

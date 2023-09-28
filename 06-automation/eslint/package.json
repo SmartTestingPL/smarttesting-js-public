@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "lint": "eslint **/*.js",
+    "lint:fix": "eslint **/*.js --fix"
+  },
+  "dependencies": {
+    "eslint": "^8.50.0",
+    "eslint-plugin-sonarjs": "^0.21.0"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "test": "ts-node test",
+    "test:watch": "chokidar \"**/*.ts\" -c \"npm test\" --silent --initial --ignore node_modules"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^4.3.6",
+    "@types/node": "^20.7.1",
+    "chokidar-cli": "3.0.0",
+    "jasmine": "5.1.0",
+    "jasmine-reporters": "2.5.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}

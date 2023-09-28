@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "prepare": "cp code-before.js code-after.js && cp code-before.ts code-after.ts",
+    "write": "prettier --write code-after.js code-after.ts",
+    "check": "prettier --check code-after.js"
+  },
+  "dependencies": {
+    "prettier": "^2.8.8"
+  }
+}

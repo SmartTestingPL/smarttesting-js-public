@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "coverage": "nyc node index"
+  },
+  "dependencies": {
+    "nyc": "^15.1.0"
+  }
+}

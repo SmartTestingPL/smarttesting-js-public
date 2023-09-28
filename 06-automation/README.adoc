@@ -1,0 +1,37 @@
+= Automatyzacja Projektu i Metryki Jakości
+
+== Automatyzacja Projektu
+
+Nie bardzo istnieje JSowy odpowiednik porównujący Maven oraz Gradle na zasadzie konwencja/konfiguracja.
+
+Standardowo tooling składa się z:
+- frameworka do testowania (`jasmine`, `jest`, `mocha`, etc.)
+- bibliotek wspomagających framework do testowania, np. asercje (`chai`, `sinon`), biblioteki specifyczne dla narzędzia (np. `express`), code coverage (`nyc`), automatyzacja (`chokidar`), etc.
+- (opcjonalnie) w przypadku frontendowego JSa dodatkowo często dochodzi tzw. bundler, czyli narzędzie "sklejające" wiele plików w 1 lub kilka (cel: mniej żądań HTTP o pliki-assety + wygodniejszy deploy management)
+- (opcjonalnie) kompilator, np. TypeScript + tooling (np. ts-node umożliwiający uruchamianie TSowego kodu w runtime)
+- Quality Checks - jslint/jshint/eslint/tslint
+- (opcjonalnie) - auto-formater kodu, np. `prettier`
+
+Pokazujemy alternatywne setupy testowe dla JavaScriptu:
+
+* mocha
+* jasmine
+* jest
+
+== Metryki jakości
+
+Uruchamiamy:
+
+* `jasmine`, `jasmine-ts`, `mocha`, `jest` - frameworki testowe
+  * __ogromne mnóstwo__ przykładowych testów, używających spy'ów, mocków, asynchroniczności, timerów etc.
+* `eslint` jako JSową alternatywę dla SonarQube
+  * ustawiamy kilka standardowych reguł
+  * oraz cyclomatic complexity: https://eslint.org/docs/rules/complexity
+  * wiele z reguł lintera potrafią się auto-fixować - wystarczy flaga `--fix` (`prettier` również sam modyfikuje kod, ale raczej pod kątem formatowania, a nie code smelli/bugów)
+  * 3 stopnie severity: `error`, `warn`, `off`
+  * `npm run lint` wewn. `eslint`
+* `nyc` jako narzędzie do code coverage
+  * tak naprawdę, `nyc` (dawniej `istanbul`) nie jest narzędziem stricte testowym - "opakowuje" środowisko uruchomieniowe node.js tak, że śledzi, które linijki są wywoływane. Jeśli podczas - albo testu albo zwykłego uruchomienia apki lub skryptu - linijka brała udział, `nyc` ją podświetli
+  * (patrz `.nycrc` wewn. `jasmine`) umożliwia konfigurację code coverage (ustawienie threshold: branches, lines, functions, statements; reportery itp)
+* `chokidar` umożliwiający uruchamianie testów po każdorazowej zmianie zawartości pliku (patrz setup `jasmine` i tam `npm run test:watch`)
+* `prettier` - formatter kodu
