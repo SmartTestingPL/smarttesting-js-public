@@ -1,0 +1,15 @@
+= Testowanie wyjątków [08-01]
+
+== Kod
+
+Przykład weryfikacji po nazwisku `NameVerification.js`, który loguje na konsoli informacje o kliencie.
+
+W `NameVerification.spec.js` znajdują się testy weryfikujące na różne sposoby rzucany wyjątek. Zaczynamy od najbardziej generycznego testu, który łapie `TypeError` - `should_throw_an_exception_when_checking_verification`. Test przechodzi przez przypadek. `TypeError` leci, gdyż w klasie `Person` ktoś zapomniał przypisać pole `gender`. `TypeError` leci z wywołania `toString()` na wartości zwracanej przez `getGender()`, która zwraca `null`.
+
+Możemy weryfikować wiadomość przy rzuconym wyjątku tak jak w przypadku testu `should throw an exception when checking verification only`.
+
+Zakładając, że z jakiegoś powodu domenowego nasza klasa weryfikacyjna nie może obsłużyć błędnych sytuacji i musi rzucić wyjątek, to ten wyjątek powinien być wyjątkiem związanym z cyklem życia naszej aplikacji. Przypuśćmy, że tworzymy sobie wyjątek `VerificationException`, który jako wyjątek domenowy może zostać obsłużony gdzieś w innej części naszej aplikacji.
+
+Nasza klasa weryfikująca mogłaby wówczas wyglądać tak jak `NameWithCustomExceptionVerification`.
+
+Test wtedy mógłby dokonywać asercji na podstawie rzuconego wyjątku tak jak w `should fail verification when name is invalid` lub `should fail verification when name is invalid and assertion is done manually`, jeśli nie mamy dostępu do bibliotek do wykonywania takich asercji.
