@@ -1,0 +1,47 @@
+= Testowanie Klientów HTTP
+
+== JavaScript-specific
+
+Oryginalna implementacja javowa wykorzystuje wiremocka - program umożliwiający przechwytywanie oraz manipulację na odpowiedziach HTTP. Wiremock, mimo że napisany w javie, jest platform-agnostic, może być śmiało wykorzystany w projektach napisanych w innych językach.
+
+Z racji, że ilustrację wiremocka mamy w oryginalnym repo javowym, tutaj używamy innego narzędzia: `msw`, ponieważ chcemy pokazać alternatywne sposoby rozwiązania problemu omawianego w tym module.
+
+MSW = mock service worker. Narzędzie uruchamia service worker (osobny proces JSowy, w tle; _dla node.js jest emulowany_), który przechwytuje wszelkie żądania HTTP i nimi manipuluje. Rozwiązanie jest JS-specific (wada), natomiast jest lżejsze w setupie + jeden kod obsługuje mockowanie tak samo zarówno po stronie serwera jak i klienta (kod uruchomiony w przeglądarce zadziała tak samo na dowolnej maszynie, w przeciwieństwie do wiremocka, który musiałby być uruchamiany niezależnie od przeglądarki). Disclaimer - `msw` nie jest ani lepsze ani gorsze od wiremocka, jest inne.
+
+=== Konfiguracja
+
+Port: w związku z tym, że nie używamy wiremocka, nie potrzebujemy losować portu, bo żądanie jest przechwytywane przez service worker.
+
+National ID: mockowy obiekt nie ma sztywnego ID, tylko określamy je parametrem z poziomu testu.
+
+== Kod
+
+Przede wszystkim `BIKVerificationService.js`
+
+== Notatki
+
+Jaki problem chcemy rozwiązać?
+
+* Nie chcemy uruchamiać testów całej aplikacji
+* Szybkie testy weryfikujące również zwracanie błędów
+
+W jaki sposób możemy przetestować z API zewnętrznym?
+
+* możemy postawić zewnętrzną usługę (np. inna aplikacja w naszym systemie)
+* możemy postawić zaślepkę usługi zewnętrznej
+* zaślepka usługi zewnętrznej przychodzi od tamtej usługi
+* możemy wykonać wywołanie do API środowiska sandboxowego
+
+`BIKVerificationService.spec.js`
+
+Wszystkie przypadki testowe są w jednym pliku z podziałem za zagnieżdżone sekcje `describe`.
+
+=== Notatki
+
+Testy wykorzystujące ręcznie ustawione wartości połączenia po HTTP. W tym przypadku, domyślna implementacja BIKVerificationService, w przypadku błędu zaloguje informacje o wyjątku.
+
+W tej klasie testowej pokazujemy
+* Jak powinniśmy przetestować naszego klienta HTTP.
+* Czy potrafimy obsłużyć wyjątki? Czy potrafimy obsłużyć scenariusze biznesowe?
+
+O problemach związanych z pisaniem zaślepek przez konsumenta API, będziemy mówić w dalszej części szkolenia. Tu pokażemy ręczne zaślepianie scenariuszy biznesowych.
