@@ -1,0 +1,79 @@
+= 04.02 Testy E2E z poziomu GUI
+
+Tematy omawiane w tej części:
+
+* Częste problemy w testach E2E z poziomu GUI
+  - zobacz: `PetClinicTest`
+* Obsługa oczekiwania na załadowanie się strony
+  - zobacz: `PageObject.pageReady`
+* Zastosowanie wzorca PageObjectModel
+  - zobacz: `PetClinicPageObjectModelTest`
+* Nakładki na Selenium
+  - zobacz `PetClinicSelenideTest`
+
+**Setup do Testów**
+
+Testy E2E w tym module są uruchamiane względem projektu [Pet Clinic](https://github.com/spring-projects/spring-petclinic).
+
+Projekt należy sklonować z GitHuba i odpalić lokalnie:
+
+```
+git clone https://github.com/spring-projects/spring-petclinic.git
+cd spring-petclinic
+./mvnw spring-boot:run
+```
+
+Testy zakładają, że projekt jest dostępny pod adresem http://localhost:8080 (adres można zmienić per-test).
+
+== Tooling
+
+W module JavaScriptowym odpuszczamy Selenium, jakoże jest ono przeżytkiem (dostępne są znacznie potężniejsze i przyjemniejsze w obsłudze narzędzia). Spośród wielu możliwych, skupimy się na `cypress` - narzędziem służącym stricte do testów e2e oraz `puppeteer` - narzędziem automatyzującym przeglądarkę (może być stosowane z powodzeniem do testów E2E, ale możemy w dowolnym celu zautomatyzować przeglądarkę).
+
+Zaletą `puppeteer` jest m.in. to, że możemy - przy użyciu chrome devtools protocol (wewn. protokołem używanym w chrome, który został upubliczniony, aby przeglądarkę z zewn. automatyzować) - ustawić np. CPU throttling (zwolnienie taktowania procesora) albo network throttling ("zwolnienie internetu"). Jeśli chcesz przetestować np. jak Twoja aplikacja zadziała E2E na urządzeniu z kiepskim sprzętem - CPU throttling jak znalazł; albo przy słabym łączu, np. na telefonie, jadąc szybko samochodem, albo w lesie :) symulowanie takich "trudnych" warunków jest obecnie wiarygodne jedynie przy użyciu puppeteera.
+
+Wady `puppeteer` to z kolei: dostepność jedynie dla chrome'a, niskopoziomowe API (tj. wywleczona na wierzch asynchroniczność, w związku z czym wszystk otrzeba awaitować - niby nic trudnego ale więcej pisania - oraz przekazywanie parametrów nieco topornym API w związku z jawnym przekazywaniem referencji na obiekty które wyślemy z naszego skyrptu do przeglądarki - nasz kod niestety operuje na tym niskim poziomie).
+
+Z drugiej strony `cypress` jest narzędziem dostosowanym do pisania testów E2E przyjemnie i wygodnie. Wysokopoziomowe API z któ®ego nie wyciekają szczegóły protokołu przeglądarki. Do tego, ma wbudowany mechanizm otwierający mini-apkę w któ®ej widać nie tylko klikaną stronę (to ma praktycznie każde narzędzie) ale wizualizuje także w formie listy krok po kroku wszelkie interakcje użytkownika, zapamiętuje je, pozwala potem w trybie read-only przeglądać je (quasi-time-travelling) i w razie failującego testu zrobić screenshoty *.png. Jak się uruchamia testy w środowisku CI/CD, te screenshoty są bardzo użyteczne :)
+
+Praktyczne rozwiązanie to stosować cypress dla większości swoich testów E2E, natomiast gdy jest potrzeba aby np. uruchomić aplikację symulującą niestandardowe warunki, można backupowo posiłkować się `puppeteer`-em.
+
+== Uruchamianie testów:
+
+- cypress:
+  - `npm run cypress:open` - otwiera "centrum dowodzenia" (apkę elektronową, która za pośrtednictwem GUI pozwala wybierać testy do uruchamiania w wybranej przeglądarce), tego trybu używa się do pracy developerskiej/QA
+  - `npm run cypress:run` - uruchamia testy w trybie headless, tego trybu używa się m.in. na serwerach CI
+  - `npm run cypress:open` - otwiera "centrum dowodzenia"
+- puppeteer: `npm run puppeteer`
+  - screenshots / 4 resolutions
+  - CPU throttling
+  - network throttling
+
+Oczekujemy outputu konsolowego podobnego do poniższego:
+
+```
+  PetClinic (no structure)
+    ✓ should add owner and display it afterwards (503ms)
+
+  PetClinic (with page objects)
+snapshot taken: snapshots/owner-form-19-inch-screen-1280x1024.png
+snapshot taken: snapshots/owner-form-20-inch-screen-1600x1200.png
+snapshot taken: snapshots/owner-form-22-inch-screen-1680x1050.png
+snapshot taken: snapshots/owner-form-24-inch-screen-1900x1200.png
+snapshot taken: snapshots/owner-page-19-inch-screen-1280x1024.png
+snapshot taken: snapshots/owner-page-20-inch-screen-1600x1200.png
+snapshot taken: snapshots/owner-page-22-inch-screen-1680x1050.png
+snapshot taken: snapshots/owner-page-24-inch-screen-1900x1200.png
+    ✓ should add owner and display it afterwards (3212ms)
+
+  PetClinic (throttling)
+    ✓ should add owner and display it afterwards (CPU throttling: rate 2.5) (1873ms)
+    ✓ should add owner and display it afterwards (Network throttling: Fast 3G) (4833ms)
+    ✓ should add owner and display it afterwards (Network throttling: Slow 3G) (12158ms)
+```
+
+== przydatne linki
+
+- puppeteer API: https://github.com/puppeteer/puppeteer/blob/main/docs/api.md
+- chrome devtools protocol: https://chromedevtools.github.io/devtools-protocol/
+- puppeteer recipes - manipulate browser settings using CDP: https://addyosmani.com/blog/puppeteer-recipes/
+

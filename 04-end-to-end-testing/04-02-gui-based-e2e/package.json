@@ -1,0 +1,17 @@
+{
+  "name": "smarttesting-js",
+  "private": true,
+  "scripts": {
+    "puppeteer": "mocha test",
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open"
+  },
+  "dependencies": {
+    "chai": "^4.3.10",
+    "chalk": "^4.1.2",
+    "cypress": "^9.7.0",
+    "mocha": "^10.2.0",
+    "puppeteer": "^13.7.0",
+    "typescript": "^5.2.2"
+  }
+}

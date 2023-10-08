@@ -1,0 +1,27 @@
+= 04.01 Testy E2E z poziomu API
+
+W folderze `src` zawarte są pliki `node-...` oraz `web-...`. Oba służą do połączenia się z API HTTP, wersja `node` umożliwia to spod serwera node.js, z kolei `web` jest gotowa do uruchomienia spod nowoczesnej przeglądarki.
+
+Interesujący fakt (zaimplementowany w źródłowej aplikacji w repo javowym) to to, że API HTTP nie zwraca odpowiedzi w prostej formie tekstowej, tylko strumieniuje binarnie i trzeba to obsłużyć po stronie klienta.
+
+Testy zakładają, że aplikacja jest dostępna pod adresem http://localhost:9091/orders.
+
+**Uruchamianie aplikacji i testów**
+
+Moduł składa się z 4 podmodułów (zaimplementowane w repozytorum javowym):
+* 2 "aplikacji biznesowych": 
+  - loan-orders - służy do składania wniosków o udzielenie pożyczki
+  - fraud-verifier - służy do weryfikacji klientów
+* Serwera Eureka służącego za ServiceRegistry (eureka-server)
+* e2e - modułu zawierającego testy E2E do uruchamienia względem już działającego systemu 
+
+== Uruchamianie aplikacji i testów
+
+1. Uruchom całą aplikację zaimplementowaną w repozytorium java (repo: `04-end-to-end-testing/04-01-rest-based-e2e/README.adoc`), czyli po kolei: MongoDB, Server Eureka, Fraud Verifier i Loan Orders. Celowo nie reimplementujemy aplikacji w node.js, aby w kontekście testów E2E pokazać niezależność implementacji aplikacji od kodu testów.
+
+2. Następnie uruchom testy E2E:
+
+```
+npm install
+npm test
+```
