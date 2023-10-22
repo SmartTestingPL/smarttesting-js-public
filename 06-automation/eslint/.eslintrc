@@ -1,0 +1,21 @@
+{
+  "rules": {
+    // począwszy od pierdół typu "tabs vs spaces"
+    "semi": ["warn", "always"],
+    "quotes": ["warn", "double"],
+    "no-console": "warn",
+    // poprzez wychwytywanie kluczowych code-smelli
+    "no-shadow": "error",
+    "prefer-const": "warn",
+    // skończywszy na cyclomatic complexity
+    "complexity": ["error", { "max": 2 }]
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:sonarjs/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}
