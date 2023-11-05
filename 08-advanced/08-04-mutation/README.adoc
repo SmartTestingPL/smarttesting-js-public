@@ -1,0 +1,34 @@
+= Testy mutacyjne [08-04]
+
+== setup
+
+- mocha (standard tests): `npm t`
+- stryker-mutator: `npm run stryker`
+  - mutates mocha tests
+  - wygenerowane raporty: `./reports/mutation/html`
+  - `npm run example-reports` uruchomi mini-serwer www wyświetlający ww. raporty
+  - a także w konsoli, coś podobnego do:
+
+```
+Ran 2.24 tests per mutant on average.
+-------------|---------|----------|-----------|------------|----------|---------|
+File         | % score | # killed | # timeout | # survived | # no cov | # error |
+-------------|---------|----------|-----------|------------|----------|---------|
+All files    |   82.76 |       24 |         0 |          4 |        1 |       0 |
+ customer.js |   82.76 |       24 |         0 |          4 |        1 |       0 |
+-------------|---------|----------|-----------|------------|----------|---------|
+```
+
+== Kod
+
+- `src/customer.js` - implementacja, którą będziemy testować
+- `test/src/customer.spec.js` - weryfikujemy:
+  * wiek z przyszłości
+  * wiek w ramach przedziału akceptowalnego
+  * wiek poniżej przedziału
+  * wiek powyżej przedziału
+- uruchamiamy `npm t` i wszystkie testy przechodzą...
+
+Jak uruchomimy narzędzie do policzenia pokrycia kodu testami, to wyjdzie nam 100% pokrycia kodu. Pytanie jest czy wszystkie ścieżki zostały rzeczywiście pokryte? Zapomnieliśmy o warunkach brzegowych!
+
+Następnie, jeśli uruchomimy `npm run stryker`, to uruchomione zostaną testy mutacyjne. Uzyskamy raport w katalogu `./reports/mutation/html`, z którego możemy wyczytać, że brakuje nam weryfikacji pewnych warunków w naszych testach. Należy uzupełnić testy tak, aby "żaden mutant nie przeżył" ;).
